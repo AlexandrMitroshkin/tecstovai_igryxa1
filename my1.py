@@ -1,60 +1,117 @@
+from time import *
+
+
 class Human:
     betta = 0
 
-    def __init__(self, name, money, hp, bronia, straight, oryjie):
+    def __init__(self, name, money, hp, key_bronia, key_damage ,):
         self.name = name
         self._money = money
         self._hp = hp
-        self._bronia = bronia
-        self._straight = straight
-        self._oryjie = oryjie
+
         self.assortiment = {'vodka': 15, 'bread': 3, 'kokain': 100}
 
+        self.dict_of_bronia = {}
+
+        if key_bronia == "shirt":
+            self.dict_of_bronia["shirt"] = 5
+
+        elif key_bronia == 'Leather_jacket':
+            self.dict_of_bronia["Leather_jacket"] = 20
+
+        elif key_bronia == 'chainmail':
+            self.dict_of_bronia["chainmail"] = 35
+
+        elif key_bronia == 'steel_armor':
+            self.dict_of_bronia["steel_armor"] = 70
+
+        else:
+            print('Такой брони не существует , просим вас не нарушать правила игры')
+
+        self.dict_of_damage = {}
+
+        if key_damage == "mace":
+            self.dict_of_damage["mace"] = 100
+
+        elif key_damage == 'fist':
+            self.dict_of_damage["fist"] = 20
+
+        elif key_damage == 'sword':
+            self.dict_of_damage["sword"] = 105
+
+        elif key_damage == 'bow':
+            self.dict_of_damage["bow"] = 90
+
+        else:
+            print('Такого оружия не существует , просим вас не нарушать правила игры')
+
     def sell(self, q, buyer):
-        if q in self.assortiment:
+        z = buyer.gettr_money()
+        if q in self.assortiment and z >= self.assortiment[q]:
             price = self.assortiment[q]
             self.settr_money(price)
             buyer.settr_money(-price)
             buyer.assortiment[q] = self.assortiment[q]
             del self.assortiment[q]
         else:
-            print('Такого предмета нет ')
+            print('Либо предмет который вы хотите продать отсутсвует , либо у покупателя недостаточно денег')
 
-    # def strike(self, enemy):
-    #     print('Ydar ' + self.name + 'атакует ' + enemy.name + ' с силой ' + str(
-    #         self._straight) + 'используя' + self._oryjie + "\n")
-    #     enemy._bronia -= self._straight
-    #     if enemy._bronia < 0:
-    #         enemy._hp += enemy._bronia
-    #         enemy._bronia = 0
-    #     print(
-    #         enemy.name + ' покачнулся .\n Класс его броня упал до ' + str(
-    #             enemy._bronia) + ' а, уровень здоровья до ' + str(
-    #             enemy._hp) + '\n')
+    # def strike(self, enemy, key_damage, key_bronia):
     #
-    # def fight(self, enemy):
-    #     while self._hp > 0 and enemy._hp > 0:
-    #         self.strike(enemy)
-    #         if enemy._hp <= 0:
-    #             print(enemy.name, ' пал в этом не легком бою \n')
+    #     a = enemy.gettr_hp()
+    #
+    #     d = self.dict_of_damage[key_damage]
+    #
+    #     # if key_damage in self.dict_of_damage and key_bronia in self.dict_of_bronia:
+    #
+    #     print('Удар' + self.name + ' атакует ' + enemy.name + ' с силой ' + str(
+    #         d) + 'используя' + key_damage + '\n')
+    #     enemy.dict_of_bronia[key_bronia] -= d
+    #     if enemy.dict_of_bronia[key_bronia] < 0:
+    #         a += enemy.dict_of_bronia[key_bronia]
+    #         enemy.dict_of_bronia[key_bronia] = 0
+    #
+    #
+    #
+    #
+    # # def strike(self, enemy, key_damage, key_bronia):
+    # #     a = enemy.gettr_hp()
+    # #     s = self.dict_of_bronia[key_bronia]
+    # #     if key_damage in self.dict_of_damage and key_bronia in self.dict_of_bronia:
+    # #         print('Удар' + self.name + ' атакует ' + enemy.name + ' с силой ' + str(
+    # #             self.dict_of_damage[key_damage]) + 'используя' + key_damage + '\n')
+    # #         enemy.dict_of_bronia[key_bronia] -= self.dict_of_damage[key_damage]
+    # #         if enemy.dict_of_bronia[key_bronia] < 0:
+    # #             a += enemy.dict_of_bronia[key_bronia]
+    # #             enemy.dict_of_bronia[key_bronia] = 0
+    # #         print(
+    # #             enemy.name + ' покакчеулся .\n Класс его броня упал до' + str(
+    # #                 enemy.enemy.dict_of_bronia[key_bronia]) + ' а, уровень здоровья до ' + str(
+    # #                 enemy.gettr_hp()) + '\n')
+    #
+    #
+    #
+    # def fight(self, enemy, key_damage, key_bronia):
+    #     while self.gettr_hp() > 0 and enemy.gettr_hp() > 0:
+    #         self.strike(enemy, key_damage, key_bronia)
+    #         if enemy.gettr_hp() <= 0:
+    #             print(enemy.name, 'проиграл в этом нелегком бою , но в последний момент успел сбежать \n')
     #             break
     #         sleep(5)
     #
-    #         enemy.strike(self)
-    #         if self._hp <= 0:
-    #             print(self.name, ' пал в этом не легком бою \n')
+    #         enemy.strike(key_damage, key_bronia)
+    #         if self.gettr_hp() <= 0:
+    #             print(self.name, 'проиграл в этом нелегком бою , но в последний момент успел сбежать \n')
     #             break
     #         sleep(5)
 
     def buy(self, w, saleman):
         saleman.sell(w, self)
 
-        # name, money, hp, bronia, straight, oryjie   сеттры и геттры
-
     def gettr_hp(self):
         return self._hp
 
-    def settr_hp(self, amount1):
+    def settr_hp(self, amount1):                                    # геттры и сеттры атрибутов
         self._hp += amount1
 
     def gettr_money(self):
@@ -63,58 +120,30 @@ class Human:
     def settr_money(self, amount2):
         self._money += amount2
 
-    def gettr_bronia(self, ):
-        return self._bronia
-
-    def settr_bronia(self, amount3):
-        self._bronia += amount3
-
-    def gettr_straight(self):
-        return self._straight
-
-    def settr_straight(self, amount4):
-        self._straight += amount4
-
-    def gettr_oryjie(self):
-        return self._oryjie
-
-    def settr_oryjie(self, amount5):
-        self._oryjie = amount5
-
 
 class Player(Human):
-    def move_to_new_location(self):
+    def move_to_new_location(self):                             # потом тут будет функция
         pass
 
 
 class Torgash(Human):
-    def __init__(self, name, money, hp, bronia, straight, oryjie):
-        super().__init__(name, money, hp, bronia, straight, oryjie)
-        self.assortiment = {'vodka': 15, 'meat': 30, 'apple': 1, 'fish': 15, 'milk': 10, 'bread': 3, 'kokain': 100,}
+    def __init__(self, name, money, hp, key_bronia, key_damage):                                                            #  у этого класса в атрибуте assortiment
+                                                                                                                                    # добавляется больше значений
+        super().__init__(name, money, hp, key_bronia, key_damage)
+
+        self.assortiment = {'vodka': 15, 'meat': 30, 'apple': 1, 'fish': 15, 'milk': 10, 'bread': 3, 'kokain': 100,
+                            'sword': 100, 'mace': 90, 'bow': 50, 'shirt': 10, 'Leather_jacket': 50, 'chainmail': 110,
+                            'steel_armor': 300}
 
 
+Alex = Player("Алеша Попович", 400, 300, 'shirt', 'fist')
 
-# class Torgash_oryjiem(Human):
-#     def __init__(self, name, money, hp, bronia, straight, oryjie):
-#         super().__init__(name, money, hp, bronia, straight, oryjie)
-#         self.assortiment = {'sword':100, 'mace':90,'bow':50}
+Lox = Torgash('Ахмет', 10000, 290, 'Leather_jacket', 'sword')  # name, money, hp, bronia , key
 
+Lox.sell('steel_armor', Alex)
 
-Alex = Player("Алеша Попович", 300, 100, 30, 3, 'кулак')
-
-Lox = Torgash('Ахмет', 1000, 100, 10, 25, 'меч')
-
-Lox.sell('meat', Alex)
-
-print(Alex.assortiment)
+print(Alex.assortiment)                               # тестирования
 
 print(Lox.assortiment)
 
-print(Alex.gettr_money())
-
-print(Lox.gettr_money())
-print(Lox.gettr_hp())
-print(Lox.gettr_bronia())
-print(Lox.gettr_straight())
-print(Lox.gettr_oryjie())
-
+# Alex.fight(Lox,'mace','shirt')                      # хуйня которая должна была работать
