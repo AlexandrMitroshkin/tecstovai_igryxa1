@@ -24,7 +24,7 @@ class Human:
         self._hp = hp
         self.assortiment = {'vodka': 15, 'bread': 3, 'kokain': 100}
 
-        if isinstance(weapon, Weapon):
+        if isinstance(weapon, Weapon):                                                  # что бы правила не нарушали
             self.weapon = weapon
         else:
             print('Такого оружия не существует , просим вас не нарушать правила игры')
@@ -69,6 +69,31 @@ class Human:
         print('Сила оружия', self.weapon.value)
         print('Крепкость брони', self.armor.value)
 
+    # def strike(self, enemy, weapon_attack, armor_protection):
+    #
+    #     damage = self.weapon.value
+    #
+    #     #enemy_hp_with_armor = enemy.armor.value + enemy.gettr_hp()
+    #
+    #     enemy_helth = enemy.gettr_hp()
+    #
+    #     enemy_armor = enemy.armor.value
+    #
+    #     print(
+    #         f'Удар {self.name} атакует {enemy.name} с силой {damage} используя {weapon_attack}, его защищает {armor_protection}')
+    #     if enemy_armor > 0:
+    #         enemy_armor -= damage
+    #         print(f'{enemy.name} покачнулся, а уровень здоровья до {enemy_helth}')
+    #
+    #     else:
+    #         enemy_helth -= enemy_armor
+    #         print(f'{enemy.name} покачнулся, а уровень здоровья до {enemy_helth}')
+
+
+
+
+
+
     def strike(self, enemy, weapon_attack, armor_protection):
 
         damage = self.weapon.value
@@ -85,16 +110,24 @@ class Human:
         return enemy_hp_with_armor
 
     def Fight(self, enemy, weapon_attack, armor_protection):
-
         your_hp = self.gettr_hp() + self.weapon.value
-
+                                                                        # создание переменных для сокращения кода
         enemy_hp_with_armor = enemy.armor.value + enemy.gettr_hp()
 
         print('СПРАВКА :  Формула боя заключается в том что броня добавляется к hp и бой идет пока hp не кончатся')
 
-        sleep(5)
+        sleep(2)
 
-        while your_hp > 0 and enemy_hp_with_armor > 0:
+        enemy.print_info()
+
+        sleep(2)                                            #инфа о бойцах
+
+        self.print_info()
+
+        sleep(2)
+
+        while your_hp > 0 and enemy_hp_with_armor > 0:                                  # пока они живы цикл идет  проблема ы том что они не умирают и цикл получается
+                                                                                                                                                        # бесконечный
             self.strike(enemy, weapon_attack, armor_protection)
             if enemy_hp_with_armor <= 0:
                 print(f'{enemy.name},  пал в этом не легком бою, но в последний момент успел сбежать')
@@ -104,7 +137,7 @@ class Human:
             your_hp = self.gettr_hp() + self.weapon.value
 
             enemy_hp_with_armor = enemy.armor.value + enemy.gettr_hp()
-
+                                                                                                        # сам механизм боя
             enemy.strike(self, weapon_attack, armor_protection)
 
             if your_hp <= 0:
@@ -119,7 +152,9 @@ class Player(Human):
 
 
 class Torgash(Human):
-    def __init__(self, name, money, hp, weapon, armor):
+    def __init__(self, name, money, hp, weapon, armor):                                                          #  у этого класса в атрибуте assortiment #
+                                                                                                                    # у этого класса в атрибуте assortiment
+                                                                                                                              # добавляется больше значений
         super().__init__(name, money, hp, weapon, armor)
         self.assortiment = {'vodka': 15, 'meat': 30, 'apple': 1, 'fish': 15, 'milk': 10, 'bread': 3, 'kokain': 100,
                             'меч': 150}
