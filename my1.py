@@ -4,7 +4,7 @@ from time import *
 class Human:
     betta = 0
 
-    def __init__(self, name, money, hp, key_bronia, key_damage ,):
+    def __init__(self, name, money, hp, key_bronia, key_damage,):
         self.name = name
         self._money = money
         self._hp = hp
@@ -56,6 +56,8 @@ class Human:
         else:
             print('Либо предмет который вы хотите продать отсутсвует , либо у покупателя недостаточно денег')
 
+
+
     # def strike(self, enemy, key_damage, key_bronia):
     #
     #     a = enemy.gettr_hp()
@@ -74,20 +76,20 @@ class Human:
     #
     #
     #
-    # # def strike(self, enemy, key_damage, key_bronia):
-    # #     a = enemy.gettr_hp()
-    # #     s = self.dict_of_bronia[key_bronia]
-    # #     if key_damage in self.dict_of_damage and key_bronia in self.dict_of_bronia:
-    # #         print('Удар' + self.name + ' атакует ' + enemy.name + ' с силой ' + str(
-    # #             self.dict_of_damage[key_damage]) + 'используя' + key_damage + '\n')
-    # #         enemy.dict_of_bronia[key_bronia] -= self.dict_of_damage[key_damage]
-    # #         if enemy.dict_of_bronia[key_bronia] < 0:
-    # #             a += enemy.dict_of_bronia[key_bronia]
-    # #             enemy.dict_of_bronia[key_bronia] = 0
-    # #         print(
-    # #             enemy.name + ' покакчеулся .\n Класс его броня упал до' + str(
-    # #                 enemy.enemy.dict_of_bronia[key_bronia]) + ' а, уровень здоровья до ' + str(
-    # #                 enemy.gettr_hp()) + '\n')
+    # def strike(self, enemy, key_damage, key_bronia):
+    #     a = enemy.gettr_hp()
+    #     s = self.dict_of_bronia[key_bronia]
+    #     if key_damage in self.dict_of_damage and key_bronia in self.dict_of_bronia:
+    #         print('Удар' + self.name + ' атакует ' + enemy.name + ' с силой ' + str(
+    #             self.dict_of_damage[key_damage]) + 'используя' + key_damage + '\n')
+    #         enemy.dict_of_bronia[key_bronia] -= self.dict_of_damage[key_damage]
+    #         if enemy.dict_of_bronia[key_bronia] < 0:
+    #             a += enemy.dict_of_bronia[key_bronia]
+    #             enemy.dict_of_bronia[key_bronia] = 0
+    #         print(
+    #             enemy.name + ' покакчеулся .\n Класс его броня упал до' + str(
+    #                 enemy.dict_of_bronia[key_bronia]) + ' а, уровень здоровья до ' + str(
+    #                 enemy.gettr_hp()) + '\n')
     #
     #
     #
@@ -99,7 +101,7 @@ class Human:
     #             break
     #         sleep(5)
     #
-    #         enemy.strike(key_damage, key_bronia)
+    #         enemy.strike(self , key_damage, key_bronia)
     #         if self.gettr_hp() <= 0:
     #             print(self.name, 'проиграл в этом нелегком бою , но в последний момент успел сбежать \n')
     #             break
@@ -146,4 +148,7 @@ print(Alex.assortiment)                               # тестирования
 
 print(Lox.assortiment)
 
-# Alex.fight(Lox,'mace','shirt')                      # хуйня которая должна была работать
+print(Lox.dict_of_bronia)
+print(Alex.dict_of_bronia)
+
+Alex.fight(Lox,'mace','shirt')                      # хуйня которая должна была работать
