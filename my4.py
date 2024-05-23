@@ -150,6 +150,13 @@ class Human:
             sleep(2)
 
 
+class Ogr(Human):
+    def __init__(self, name, money, hp, weapon_name, damage, armor_name,
+                     armor_strength):                                                           # у этого класса в атрибуте assortiment
+                                                                                                # добавляется больше значений
+        super().__init__(name, money, hp, weapon_name, damage, armor_name, armor_strength)
+
+        self.assortiment = {'vodka': 15, 'bread': 3, 'kokain': 100, weapon_name: 150, armor_name: 25, }
 
 
 class Player(Human):
@@ -163,9 +170,25 @@ class Player(Human):
     def move_to_new_location(self, location):
         match location:
             case 'Пригородный рынок':
-                print('Теперь вы в пригородном рынке\n '
-                      'дрогие вещи сдесь стоят дороже , такие как мечи латы  '
+                print('Теперь вы в пригородном рынке\n дрогие вещи сдесь стоят дороже , такие как мечи латы  '
                       'крч теперь ты в новой локации')
+
+            case 'Центральный рынок':
+                print('Теперь ты в центральном рынке сдесь фермерские продукты и недрогие предметы дороже чем в пригородном рынке')
+
+            case 'Логово Огров':
+                print('Теперь ты в огров, на тебя сейчас нападут')
+
+                Yrgash = Ogr("Робин", 300, 100, 'mace', 30, 'shirt', 5)
+
+                Varhcha = Ogr("Виктор", 300, 100, 'mace', 30, 'leather_jacket', 5)
+
+                Yrgash.fight(self)
+
+                Varhcha.fight(self)
+
+
+
 
 
     def change_weapons(self,replacement_weapon):
@@ -188,17 +211,6 @@ class Player(Human):
 
 
 
-class Ogr(Human):
-    def __init__(self, name, money, hp, weapon_name, damage, armor_name,
-                     armor_strength):                                                           # у этого класса в атрибуте assortiment
-                                                                                                # добавляется больше значений
-        super().__init__(name, money, hp, weapon_name, damage, armor_name, armor_strength)
-
-        self.assortiment = {'vodka': 15, 'bread': 3, 'kokain': 100, weapon_name: 150, armor_name: 25, }
-
-
-
-
 class Torgash(Human):
     def __init__(self, name, money, hp, weapon_name, damage, armor_name,
                  armor_strength):                                               # у этого класса в атрибуте assortiment у этого класса в атрибуте assortiment
@@ -215,32 +227,32 @@ Axmet = Torgash('Ахмет', 1000, 100, 'mace', 35, 'leather_jacket', 20)
 
 Yzbek = Torgash('Шермухамаджумма', 1000, 100, 'bow', 35, 'shirt', 20)
 
-Yrgash = Ogr("Робин", 300, 100, 'mace', 30, 'shirt', 5)
+Alex.move_to_new_location('Логово гоблинов')
 
-Varhcha = Ogr("Виктор", 300, 100, 'mace', 30, 'leather_jacket', 5)
 
-# print(Alex.assortiment)
+
+
 #
 # print(Yrgash.assortiment)
 
-Alex.buy('mace', Yrgash)
-
-Alex.buy('leather_jacket',Varhcha)
-
-# print(Alex.assortiment)
+# Alex.buy('mace', Yrgash)
 #
-# print(Yrgash.assortiment)
-
-print(Alex.weapon_name, Alex.damage)
-
-Alex.change_weapons('mace')
-
-print(Alex.weapon_name, Alex.damage)
-
-print(Alex.armor_name, Alex.armor_strength)
-
-Alex.change_armor('leather_jacket')
-
-print(Alex.armor_name, Alex.armor_strength)
-
-# Alex.fight(Axmet)
+# Alex.buy('leather_jacket',Varhcha)
+#
+# # print(Alex.assortiment)
+# #
+# # print(Yrgash.assortiment)
+#
+# print(Alex.weapon_name, Alex.damage)
+#
+# Alex.change_weapons('mace')
+#
+# print(Alex.weapon_name, Alex.damage)
+#
+# print(Alex.armor_name, Alex.armor_strength)
+#
+# Alex.change_armor('leather_jacket')
+#
+# print(Alex.armor_name, Alex.armor_strength)
+#
+# # Alex.fight(Axmet)
