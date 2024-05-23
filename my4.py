@@ -208,3 +208,5 @@ print(Yrgash.assortiment)
 # print(Alex.assortiment)
 #
 # print(Yrgash.assortiment)
+
+Alex.fight(Axmet)
