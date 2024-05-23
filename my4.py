@@ -150,13 +150,15 @@ class Human:
             sleep(2)
 
 
+
+
 class Player(Human):
     def __init__(self, name, money, hp, weapon_name, damage, armor_name,
                  armor_strength):  # у этого класса в атрибуте assortiment у этого класса в атрибуте assortiment
         # добавляется больше значений
         super().__init__(name, money, hp, weapon_name, damage, armor_name, armor_strength)
 
-        self.assortiment = {'vodka': 15, 'bread': 3, 'меч': 150, 'shirt': 25}
+        self.assortiment = {'vodka': 15, 'bread': 3, 'sword': 150, 'shirt': 25}
 
     def move_to_new_location(self, location):
         match location:
@@ -164,6 +166,24 @@ class Player(Human):
                 print('Теперь вы в пригородном рынке\n '
                       'дрогие вещи сдесь стоят дороже , такие как мечи латы  '
                       'крч теперь ты в новой локации')
+
+
+    def change_weapons(self,replacement_weapon):
+        if replacement_weapon in WEAPONS and replacement_weapon in self.assortiment:
+            self.weapon_name = replacement_weapon
+            self.damage = WEAPONS[replacement_weapon]["damage"]
+
+        else:
+            print('Либо такого оружия нет в игре , либо его нет в вашем ассортимнте')
+
+
+    def change_armor(self,replacement_armor):
+        if replacement_armor in ARMOR and replacement_armor in self.assortiment:
+            self.armor_name = replacement_armor
+            self.armor_strength = ARMOR[replacement_armor]["armor_strength"]
+
+        else:
+            print('Либо тако брони нет в игре , либо его нет в вашем ассортимнте')
 
 
 
@@ -174,7 +194,7 @@ class Ogr(Human):
                                                                                                 # добавляется больше значений
         super().__init__(name, money, hp, weapon_name, damage, armor_name, armor_strength)
 
-        self.assortiment = {'vodka': 15, 'bread': 3, 'kokain': 100, 'mace': 150, 'shirt': 25, }
+        self.assortiment = {'vodka': 15, 'bread': 3, 'kokain': 100, weapon_name: 150, armor_name: 25, }
 
 
 
@@ -197,16 +217,30 @@ Yzbek = Torgash('Шермухамаджумма', 1000, 100, 'bow', 35, 'shirt',
 
 Yrgash = Ogr("Робин", 300, 100, 'mace', 30, 'shirt', 5)
 
-Varhcha = Ogr("Виктор", 300, 100, 'mace', 30, 'shirt', 5)
+Varhcha = Ogr("Виктор", 300, 100, 'mace', 30, 'leather_jacket', 5)
 
-print(Alex.assortiment)
-
-print(Yrgash.assortiment)
-
-# Alex.buy('kokain', Yrgash)
-#
 # print(Alex.assortiment)
 #
 # print(Yrgash.assortiment)
 
-Alex.fight(Axmet)
+Alex.buy('mace', Yrgash)
+
+Alex.buy('leather_jacket',Varhcha)
+
+# print(Alex.assortiment)
+#
+# print(Yrgash.assortiment)
+
+print(Alex.weapon_name, Alex.damage)
+
+Alex.change_weapons('mace')
+
+print(Alex.weapon_name, Alex.damage)
+
+print(Alex.armor_name, Alex.armor_strength)
+
+Alex.change_armor('leather_jacket')
+
+print(Alex.armor_name, Alex.armor_strength)
+
+# Alex.fight(Axmet)
