@@ -6,15 +6,21 @@ WEAPONS = {
     "bow": {"damage": 25}, }
 
 ARMOR = {
-    'shirt': {'armor_strength': 5},
-    'leather_jacket': {'armor_strength': 20},
-    'chainmail': {'armor_strength': 35},
-    'steel_armor': {'armor_strength': 50}}
+    'shirt': {'armor_strength': 1},
+    'leather_jacket': {'armor_strength': 10},
+    'chainmail': {'armor_strength': 20},
+    'steel_armor': {'armor_strength': 30}}
+
+
+LOCATIONS = {'Пригородный рынок': 'Узбек',
+             'Логово Огров': 'Ургаш и Варча',
+             'Центральный рынок': 'Ахмет'}
+
 
 
 class Human:
 
-    def __init__(self, name, money, hp, weapon_name, damage, armor_name, armor_strength):
+    def __init__(self, name, money, hp, weapon_name, armor_name):
         self.name = name
         self._money = money
         self._hp = hp
@@ -25,16 +31,19 @@ class Human:
         if weapon_name in WEAPONS:
             self.weapon_name = weapon_name
             self.damage = WEAPONS[weapon_name]["damage"]
+
         else:
             raise ValueError(f"Unknown weapon: {weapon_name}")
 
         if armor_name in ARMOR:
             self.armor_name = armor_name
             self.armor_strength = ARMOR[armor_name]['armor_strength']
+
         else:
             raise ValueError(f"Unknown armor: {armor_name}")
 
     def sell(self, q, buyer):
+        print("Если buyer был в другой локации то герой  быренько к нему прибежал ")
         z = buyer.gettr_money()
 
         if q in self.assortiment and z >= self.assortiment[q]:
@@ -48,6 +57,7 @@ class Human:
             print('Либо предмет который вы хотите продать отсутсвует , либо у покупателя недостаточно денег')
 
     def buy(self, w, saleman):
+        print('Если saleman был в другой локации , то  герой  быренько к нему прибежал  ')
         saleman.sell(w, self)
 
     def gettr_hp(self):
@@ -84,6 +94,7 @@ class Human:
         print('Методика боя заключается в том что атакующий наносит урон зависящий от своего оружия по броне врага\n'
               'если броня прочнее чем оружие то урон не проходит . \n Броня  не портится от ударов она каждый раз сдерживает часть урона .\n'
               'Бой идет пока здоровье не кончится.')
+        sleep(5)
 
         your_hp_with_armor = self.gettr_hp() + self.armor_strength
 
@@ -102,10 +113,12 @@ class Human:
 
             enemy.settr_hp(your_damage)
 
+            sleep(5)
+
             your_hp_with_armor = self.gettr_hp() + self.armor_strength
-                                                            # Переопределение всех переменных после нанесения урона
-                                                                # в этом заключалась ошибка над которой я работал око 7 часов поэтому возможно какие то из переменных
-                                                                        # переопределены лишний раз но это лучше чем неработающий код
+            # Переопределение всех переменных после нанесения урона
+            # в этом заключалась ошибка над которой я работал око 7 часов поэтому возможно какие то из переменных
+            # переопределены лишний раз но это лучше чем неработающий код
             enemy_hp_with_armor = enemy.gettr_hp() + enemy.armor_strength
 
             your_damage = enemy_hp_with_armor - self.damage
@@ -123,15 +136,17 @@ class Human:
             # Защищающийся наносит удар атакующему
 
             print(
-                f'Удар {self.name} атакует {enemy.name} с силой {self.damage} используя {self.weapon_name}, его защищает {self.armor_name}')
+                f'Удар {enemy.name} атакует {self.name} с силой {enemy.damage} используя {enemy.weapon_name}, его защищает {enemy.armor_name}')
 
             self.settr_hp(enemy_damage)
 
+            sleep(5)
+
             your_hp_with_armor = self.gettr_hp() + self.armor_strength
-                                                                                # Переопределение всех переменных после нанесения урона
-                                                                                # в этом заключалась ошибка над которой я работал око 7 часов поэтому возможно
-                                                                                            # какие то из переменных
-                                                                    # переопределены лишний раз но это лучше чем неработающий код
+            # Переопределение всех переменных после нанесения урона
+            # в этом заключалась ошибка над которой я работал око 7 часов поэтому возможно
+            # какие то из переменных
+            # переопределены лишний раз но это лучше чем неработающий код
             enemy_hp_with_armor = enemy.gettr_hp() + enemy.armor_strength
 
             your_damage = enemy_hp_with_armor - self.damage
@@ -147,51 +162,70 @@ class Human:
                 break
 
             # Сделать паузу между ударами
-            sleep(2)
+            sleep(5)
 
 
 class Ogr(Human):
-    def __init__(self, name, money, hp, weapon_name, damage, armor_name,
-                     armor_strength):                                                           # у этого класса в атрибуте assortiment
-                                                                                                # добавляется больше значений
-        super().__init__(name, money, hp, weapon_name, damage, armor_name, armor_strength)
+    betta = 0
 
-        self.assortiment = {'vodka': 15, 'bread': 3, 'kokain': 100, weapon_name: 150, armor_name: 25, }
+    def __init__(self, name, money, hp, weapon_name, armor_name):  # у этого класса в атрибуте assortiment
+                                                                    # добавляется больше значений
+        super().__init__(name, money, hp, weapon_name, armor_name)
+
+        self.assortiment = {'vodka': 15, 'bread': 3, 'kokain': 150
+                            , weapon_name: 150, armor_name: 25, 'сигара': 100}
+
+    def begging_for_mercy(self):
+        print('Мы проиграли , мы уйдем только пощади , тебе дадут награду , пока он зазевался бежим\n'
+              'крч ты лошара , но награду дадут ')
+
+        self.betta += 1
 
 
 class Player(Human):
-    def __init__(self, name, money, hp, weapon_name, damage, armor_name,
-                 armor_strength):  # у этого класса в атрибуте assortiment у этого класса в атрибуте assortiment
-        # добавляется больше значений
-        super().__init__(name, money, hp, weapon_name, damage, armor_name, armor_strength)
+    def __init__(self, name, money, hp, weapon_name, armor_name):  # у этого класса в атрибуте assortiment у этого класса в атрибуте assortiment
+                                                                    # добавляется больше значений
+        super().__init__(name, money, hp, weapon_name, armor_name)
 
-        self.assortiment = {'vodka': 15, 'bread': 3, 'sword': 150, 'shirt': 25}
+        self.assortiment = {'vodka': 15, 'bread': 3, 'sword': 150,
+                            'shirt': 25, 'kokain': 100}
 
     def move_to_new_location(self, location):
-        match location:
-            case 'Пригородный рынок':
-                print('Теперь вы в пригородном рынке\n дрогие вещи сдесь стоят дороже , такие как мечи латы  '
-                      'крч теперь ты в новой локации')
+        if location in LOCATIONS:
+            match location:
+                case 'Пригородный рынок':
+                    print('Теперь вы в пригородном рынке\n дрогие вещи сдесь стоят дороже , такие как мечи латы  '
+                          'крч теперь ты в новой локации.\n Здесь основной торгаш Ахмет')
 
-            case 'Центральный рынок':
-                print('Теперь ты в центральном рынке сдесь фермерские продукты и недрогие предметы дороже чем в пригородном рынке')
+                case 'Центральный рынок':
+                    print(
+                        'Теперь ты в центральном рынке сдесь фермерские продукты и недрогие предметы дороже чем в пригородном рынке.\n'
+                        'Здесь основной торгаш Ахмет')
 
-            case 'Логово Огров':
-                print('Теперь ты в огров, на тебя сейчас нападут')
+                case 'Логово Огров':
+                    print('Теперь ты в логове огров, на тебя сейчас нападут')
 
-                Yrgash = Ogr("Робин", 300, 100, 'mace', 30, 'shirt', 5)
+                    Yrgash = Ogr("Ургаш", 300, 100, 'mace', 'leather_jacket')
+                    Varhcha = Ogr("Варча", 300, 100, 'mace', 'chainmail')
 
-                Varhcha = Ogr("Виктор", 300, 100, 'mace', 30, 'leather_jacket', 5)
+                    Yrgash.fight(self)
 
-                Yrgash.fight(self)
+                    if self.is_alive():
+                        print(
+                            'Ты выпил изцеляющее зелье и твои hp восстановились , но вдруг на тебя накидывается 2 огр')
+                        sleep(3)
 
-                Varhcha.fight(self)
+                        Varhcha.fight(self)
 
+                        if Varhcha.is_alive:
+                            print('Cьебывай с нашей земли!')
+                        else:
+                            Varhcha.begging_for_mercy()
+                            print(
+                                'после этого тяжелого боя вы вернулись на локацию Центральный рынок и получили у торгаша награду.')
+                            self.settr_money(500)
 
-
-
-
-    def change_weapons(self,replacement_weapon):
+    def change_weapons(self, replacement_weapon):
         if replacement_weapon in WEAPONS and replacement_weapon in self.assortiment:
             self.weapon_name = replacement_weapon
             self.damage = WEAPONS[replacement_weapon]["damage"]
@@ -199,60 +233,79 @@ class Player(Human):
         else:
             print('Либо такого оружия нет в игре , либо его нет в вашем ассортимнте')
 
-
-    def change_armor(self,replacement_armor):
+    def change_armor(self, replacement_armor):
         if replacement_armor in ARMOR and replacement_armor in self.assortiment:
+
             self.armor_name = replacement_armor
+
             self.armor_strength = ARMOR[replacement_armor]["armor_strength"]
 
         else:
             print('Либо тако брони нет в игре , либо его нет в вашем ассортимнте')
 
 
+class Torgash_of_the_center_market(Human):
+    def __init__(self, name, money, hp, weapon_name, armor_name,):
+                                                                        # у этого класса в атрибуте assortiment у этого класса в атрибуте assortiment
+                                                                        # добавляется больше значений
+        super().__init__(name, money, hp, weapon_name,armor_name)
+
+        self.assortiment = {'vodka': 15, 'meat': 30, 'apple': 1,
+                            'fish': 15, 'milk': 10, 'bread': 3,
+                            'sword': 150, 'mace': 175, 'bow': 100,
+                            'leather_jacket': 60, 'shirt': 25, 'chainmail': 150,
+                            'steel_armor': 300, 'kokain': 150}
 
 
-class Torgash(Human):
-    def __init__(self, name, money, hp, weapon_name, damage, armor_name,
-                 armor_strength):                                               # у этого класса в атрибуте assortiment у этого класса в атрибуте assortiment
-                                                                                    # добавляется больше значений
-        super().__init__(name, money, hp, weapon_name, damage, armor_name, armor_strength)
+class Torgash_of_the_suburb_market(Human):
+    def __init__(self, name, money, hp, weapon_name, armor_name,):
+                                                                        # у этого класса в атрибуте assortiment у этого класса в атрибуте assortiment
+                                                                        # добавляется больше значений
+        super().__init__(name, money, hp, weapon_name, armor_name)
 
-        self.assortiment = {'vodka': 15, 'meat': 30, 'apple': 1, 'fish': 15, 'milk': 10, 'bread': 3,
-                            'меч': 150, 'leather_jacket': 60, 'shirt': 25, 'chainmail': 150, 'steel_armor': 300}
-
-
-Alex = Player("Алеша Попович", 300, 100, 'sword', 30, 'shirt', 5)
-
-Axmet = Torgash('Ахмет', 1000, 100, 'mace', 35, 'leather_jacket', 20)
-
-Yzbek = Torgash('Шермухамаджумма', 1000, 100, 'bow', 35, 'shirt', 20)
-
-Alex.move_to_new_location('Логово гоблинов')
+        self.assortiment = {'vodka': 4.5, 'meat': 10, 'apple': 0.5,
+                            'fish': 4, 'milk': 3, 'bread': 1,
+                            'меч': 200, 'leather_jacket': 100, 'shirt': 25,
+                            'chainmail': 250, 'steel_armor': 500,'kokain': 200}
 
 
+Alex = Player("Алеша Попович", 300, 100, 'sword', 'steel_armor')
+
+Axmet = Torgash_of_the_center_market('Ахмет', 1000, 100, 'mace', 'leather_jacket')
+
+Yzbek = Torgash_of_the_suburb_market('Шермухамаджумма', 1000, 100, 'bow', 'shirt')
 
 
+# Alex.buy('mace', Axmet)
 #
-# print(Yrgash.assortiment)
-
-# Alex.buy('mace', Yrgash)
+# Alex.buy('leather_jacket', Axmet)
 #
-# Alex.buy('leather_jacket',Varhcha)
-#
-# # print(Alex.assortiment)
-# #
-# # print(Yrgash.assortiment)
-#
-# print(Alex.weapon_name, Alex.damage)
+# print(Alex.assortiment)
 #
 # Alex.change_weapons('mace')
 #
 # print(Alex.weapon_name, Alex.damage)
 #
-# print(Alex.armor_name, Alex.armor_strength)
-#
 # Alex.change_armor('leather_jacket')
 #
 # print(Alex.armor_name, Alex.armor_strength)
 #
-# # Alex.fight(Axmet)
+# Alex.move_to_new_location('Логово Огров')
+
+print('Здраствуй игрок , сейчас ты играешь в Алеша_Попович_Текстовая_игруха\n'
+      'Это типо а ля открытый мир скайрима , сдесь есть 2 рынка и логово Огров . На рынках разные цены (попробуй на этом подзаработать)\n'
+      'Ты спавнишься на центральном рынке где ты иожешь покупать оружие и броню у которой урон и прочность больше чем у твоих. \n'
+      'На рынке ты видишь доску обьявлений где висит миссия по зачистке логова гоблинов за котрую обещанна награда , 500 монет , это немало\n'
+      'ты можешь менять локации и помни что лучше подготовиться к походу в логово Огров(список доступныч методов пока не готов\n)'
+      'список доступных тебе методов:\n'
+      '1)Alex.move_to_new_location(location) , она перместит тебя в указанную локацию . Вот список доступных локаций \n'
+      'LOCATIONS = {Пригородный рынок: Узбек; Логово Огров: Ургаш и Варча ;Центральный рынок: Ахмет}\n'
+      '2)Alex.change_weapons(на что сменить) , этот метод меняет твое оружие на указанное . Вот список доступных , спарва у них урон\n'
+      'sword 35 , mace  40 , bow 20\n'
+      '3)Alex.change_armor(replacement_weapon) тоже самое что и с оружем но это броня , вот список\n'
+      'shirt 5 , leather_jacket 10 , chainmail 20 , steel_armor 30\n'
+      '4)ты можешь нападать Alex.fight(enemy)\n'
+      '5)ты можешь попросить торновца показать ассортимент print(name.assortiment)\n'
+      '6)ты мжешь покупать и продавать Alex.sell(что то) и Alex.buy(что то) ')
+
+
