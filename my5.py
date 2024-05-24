@@ -1,5 +1,5 @@
 from my4 import *
-print('вот и игра')
+print('вот и игра.')
 
 
 
