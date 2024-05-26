@@ -43,7 +43,7 @@ class Human:
             raise ValueError(f"Unknown armor: {armor_name}")
 
     def sell(self, q, buyer):
-        print("Если buyer был в другой локации то герой  быренько к нему прибежал ")
+        print(f"Если {buyer} был в другой локации то герой  быренько к нему прибежал ")
         z = buyer.gettr_money()
 
         if q in self.assortiment and z >= self.assortiment[q]:
@@ -57,7 +57,7 @@ class Human:
             print('Либо предмет который вы хотите продать отсутсвует , либо у покупателя недостаточно денег')
 
     def buy(self, w, saleman):
-        print('Если saleman был в другой локации , то  герой  быренько к нему прибежал  ')
+        print(f'Если {saleman} был в другой локации , то  герой  быренько к нему прибежал  ')
         saleman.sell(w, self)
 
     def gettr_hp(self):
