@@ -11,11 +11,11 @@ ARMOR = {
     'chainmail': {'armor_strength': 20},
     'steel_armor': {'armor_strength': 30}}
 
-
 LOCATIONS = {'Пригородный рынок': 'Узбек',
              'Логово Огров': 'Ургаш и Варча',
              'Центральный рынок': 'Ахмет'}
 
+Torgahi = [Axmet , Yzbek]
 
 
 class Human:
@@ -43,7 +43,7 @@ class Human:
             raise ValueError(f"Unknown armor: {armor_name}")
 
     def sell(self, q, buyer):
-        print(f"Если {buyer} был в другой локации то герой  быренько к нему прибежал ")
+        print(f"Если {buyer.name} был в другой локации то герой  быренько к нему прибежал ")
         z = buyer.gettr_money()
 
         if q in self.assortiment and z >= self.assortiment[q]:
@@ -57,7 +57,7 @@ class Human:
             print('Либо предмет который вы хотите продать отсутсвует , либо у покупателя недостаточно денег')
 
     def buy(self, w, saleman):
-        print(f'Если {saleman} был в другой локации , то  герой  быренько к нему прибежал  ')
+        print(f'Если {saleman.name} был в другой локации , то  герой  быренько к нему прибежал  ')
         saleman.sell(w, self)
 
     def gettr_hp(self):
@@ -169,11 +169,11 @@ class Ogr(Human):
     betta = 0
 
     def __init__(self, name, money, hp, weapon_name, armor_name):  # у этого класса в атрибуте assortiment
-                                                                    # добавляется больше значений
+        # добавляется больше значений
         super().__init__(name, money, hp, weapon_name, armor_name)
 
         self.assortiment = {'vodka': 15, 'bread': 3, 'kokain': 150
-                            , weapon_name: 150, armor_name: 25, 'сигара': 100}
+            , weapon_name: 150, armor_name: 25, 'сигара': 100}
 
     def begging_for_mercy(self):
         print('Мы проиграли , мы уйдем только пощади , тебе дадут награду , пока он зазевался бежим\n'
@@ -183,8 +183,9 @@ class Ogr(Human):
 
 
 class Player(Human):
-    def __init__(self, name, money, hp, weapon_name, armor_name):  # у этого класса в атрибуте assortiment у этого класса в атрибуте assortiment
-                                                                    # добавляется больше значений
+    def __init__(self, name, money, hp, weapon_name,
+                 armor_name):  # у этого класса в атрибуте assortiment у этого класса в атрибуте assortiment
+        # добавляется больше значений
         super().__init__(name, money, hp, weapon_name, armor_name)
 
         self.assortiment = {'vodka': 15, 'bread': 3, 'sword': 150,
@@ -245,10 +246,10 @@ class Player(Human):
 
 
 class Torgash_of_the_center_market(Human):
-    def __init__(self, name, money, hp, weapon_name, armor_name,):
-                                                                        # у этого класса в атрибуте assortiment у этого класса в атрибуте assortiment
-                                                                        # добавляется больше значений
-        super().__init__(name, money, hp, weapon_name,armor_name)
+    def __init__(self, name, money, hp, weapon_name, armor_name, ):
+        # у этого класса в атрибуте assortiment у этого класса в атрибуте assortiment
+        # добавляется больше значений
+        super().__init__(name, money, hp, weapon_name, armor_name)
 
         self.assortiment = {'vodka': 15, 'meat': 30, 'apple': 1,
                             'fish': 15, 'milk': 10, 'bread': 3,
@@ -258,15 +259,15 @@ class Torgash_of_the_center_market(Human):
 
 
 class Torgash_of_the_suburb_market(Human):
-    def __init__(self, name, money, hp, weapon_name, armor_name,):
-                                                                        # у этого класса в атрибуте assortiment у этого класса в атрибуте assortiment
-                                                                        # добавляется больше значений
+    def __init__(self, name, money, hp, weapon_name, armor_name, ):
+        # у этого класса в атрибуте assortiment у этого класса в атрибуте assortiment
+        # добавляется больше значений
         super().__init__(name, money, hp, weapon_name, armor_name)
 
         self.assortiment = {'vodka': 4.5, 'meat': 10, 'apple': 0.5,
                             'fish': 4, 'milk': 3, 'bread': 1,
                             'меч': 200, 'leather_jacket': 100, 'shirt': 25,
-                            'chainmail': 250, 'steel_armor': 500,'kokain': 200}
+                            'chainmail': 250, 'steel_armor': 500, 'kokain': 200}
 
 
 Alex = Player("Алеша Попович", 300, 100, 'sword', 'steel_armor')
@@ -275,39 +276,173 @@ Axmet = Torgash_of_the_center_market('Ахмет', 1000, 100, 'mace', 'leather_j
 
 Yzbek = Torgash_of_the_suburb_market('Шермухамаджумма', 1000, 100, 'bow', 'shirt')
 
+# Torg = [Axmet, Yzbek]
 
-# Alex.buy('mace', Axmet)
-#
-# Alex.buy('leather_jacket', Axmet)
-#
-# print(Alex.assortiment)
-#
-# Alex.change_weapons('mace')
-#
-# print(Alex.weapon_name, Alex.damage)
-#
-# Alex.change_armor('leather_jacket')
-#
-# print(Alex.armor_name, Alex.armor_strength)
-#
-# Alex.move_to_new_location('Логово Огров')
 
-print('Здраствуй игрок , сейчас ты играешь в Алеша_Попович_Текстовая_игруха\n'
-      'Это типо а ля открытый мир скайрима , сдесь есть 2 рынка и логово Огров . На рынках разные цены (попробуй на этом подзаработать)\n'
-      'Ты спавнишься на центральном рынке где ты иожешь покупать оружие и броню у которой урон и прочность больше чем у твоих. \n'
-      'На рынке ты видишь доску обьявлений где висит миссия по зачистке логова гоблинов за котрую обещанна награда , 500 монет , это немало\n'
-      'ты можешь менять локации и помни что лучше подготовиться к походу в логово Огров(список доступныч методов пока не готов\n)'
-      'список доступных тебе методов:\n'
-      '1)Alex.move_to_new_location(location) , она перместит тебя в указанную локацию . Вот список доступных локаций \n'
-      'LOCATIONS = {Пригородный рынок: Узбек; Логово Огров: Ургаш и Варча ;Центральный рынок: Ахмет}\n'
-      '2)Alex.change_weapons(на что сменить) , этот метод меняет твое оружие на указанное . Вот список доступных , спарва у них урон\n'
-      'sword 35 , mace  40 , bow 20\n'
-      '3)Alex.change_armor(replacement_weapon) тоже самое что и с оружем но это броня , вот список\n'
-      'shirt 5 , leather_jacket 10 , chainmail 20 , steel_armor 30\n'
-      '4)ты можешь нападать Alex.fight(enemy)\n'
-      '5)ты можешь попросить торновца показать ассортимент print(name.assortiment)\n'
-      '6)ты мжешь покупать и продавать Alex.sell(что то) и Alex.buy(что то)'
-      '7) Список персножей: Axmet(location - Центральный рынок) , Yzbek(location - Пригородный рынок), Alex(главный герой - вы),\n'
-      ' также есть огры но их имена вам знать не обязательно  ')
+def get_location():
+    print('Вот и список локаций и персонажей')
+    print(LOCATIONS)
+
+
+def F_Q():
+    print("Введите сменое оружие")
+    weapon = input()
+    Alex.change_weapons(weapon)
+
+
+def F_W():
+    print("Ведите сменную броню ")
+    armor = input()
+    Alex.change_armor(armor)
+
+
+def F_E():
+    print("вот ваш инвентарь")
+    print(Alex.assortiment)
+
+
+def F_R():
+    print("Укажи ассортимент какого торговца ты хочешь увидеть")
+    print(
+        'И если тот торшаш чей ассортимент ты хочешь посмотреть находтися в другой локации, то ты к нему быстренько прибежишь')
+    torgash = input()
+
+    if torgash == Axmet:
+        print('Вот его товары')
+        print(Axmet.assortiment)
+
+    elif torgash == Yzbek:
+        print('Вот его товары')
+        print(Yzbek.assortiment)
+
+    else:
+        print('Сорян, но такого торгаша нет')
+
+
+def F_T(saleman):
+    print("Для покупки тебе нужно указать продавца , а затем товар")
+    saleman = input()
+    tovar = input()
+
+    if saleman == Axmet:
+        Alex.buy(tovar, Axmet)
+
+    elif saleman == Yzbek:
+        Alex.buy(tovar, Yzbek)
+
+    else:
+        print('Сорян, но такого торгаша нет')
+
+
+def F_Y():
+    print("Для продажи вещи из твоего инвентраря для начала тебе нужно будет указать вещь и покупателя ")
+    tovar = input()
+    buyer = input()
+
+    if buyer == Axmet:
+        Alex.sell(tovar, Axmet)
+
+    elif buyer == Yzbek:
+        Alex.sell(tovar, Yzbek)
+
+    else:
+        print('Сорян, но такого торгаша нет')
+
+
+def F_U():
+    print("Что бы началось сражене введи имя противника , если забыл их имена то вот они :")
+
+    enemy = input()
+
+    if enemy == Axmet:
+        Alex.fight(Axmet)
+
+    elif enemy == Yzbek:
+        Alex.fight(Yzbek)
+
+    else:
+        print('Сорян, но такого врага нет')
+
+
+def F_I():
+    print("Для смены локации тебе нужно указать нужную тебе локацию")
+    print('Вот список доступных:Центральный рынок , Пригородный рынок ')
+    location = input()
+    Alex.move_to_new_location(location)
+
+
+spisok_funksi = {'Q': F_Q, 'W': F_W, 'E': F_E, 'R': F_R, 'T': F_T, 'Y': F_Y, 'U': F_U, 'I': F_I}
+
+print('Для начала игры нажмите клавишу "A"')
+
+a = input()
+
+if a == 'A':
+    print('Здраствуй игрок , сейчас ты играешь в Алеша_Попович_Текстовая_игруха\n'
+          'Это типо а ля открытый мир скайрима, нажми клавишу "B" , если хочешь продолжить')
+    print('')
+    b = input()
+    if b == 'B':
+        print("Обучение:")
+        print('крч Ты Алеша Попович и ты спавнишься на локации Центральный рынкок.  ')
+        print('В игре всего 3 локации вот их список и персонажи обитающие там:\n'
+              'Axmet(location - Центральный рынок) , Yzbek(location - Пригородный рынок), Alex(location - может менять , это главный герой тоесть вы ),\n'
+              ' также есть огры , они обитают в локации "Логово Огров" , их имена вам знать не обязательно')
+        print('')
+        print(
+            'В игре есть много оружия и брони взависмости от которых у тебя будут меняться урон и крепкость брони \n'
+            'вот список оружия :sword 35 , mace  40 , bow 20 \n'
+            'справа урон, слева название ,также ты можешь менять оружие используя клавишу "Q" после нажатия введите название оружия на которое вы хотите \n'
+            'поменять ваше сейчашнее , но учтите оно должно быть в вашем инвентаре .\n'
+            'Тоже самое вы можете провернуть с броней нажав клавишу "W" и введя сменную броню, вот её список:\n'
+            'sword 35 , mace  40 , bow 20\n')
+        print('')
+        print('Кстати о инвентаре, нажав клавишу "E" будет выведен ваш инвентарь.\n'
+              'Что бы пополнять инвентарь вам необходимо встреться с торговцем на одном из рынков\n'
+              '\n ')
+        print('')
+        print('О торговле и рынках:\n'
+              'сдесь есть 2 рынка на котроых разные цены , в пригородном рынке цены на фермерские товары ниже ,но на крутые товары вроде лат и мечей там цены выше\n '
+              'чем на центральном.  '
+              'что бы посмотреть то что предлагает торговец нажми на клавишу "R", ты увидишь цены на товары и сам ассортимент\n'
+              'что бы купить товар нажми на клавишу "T", и введи товар который хочешь купить и он появится у тебя в инвентаре.\n'
+              'Также ты можешь продавть торговцам вещи из своего инвентаря , нажав клавишу "Y"')
+        print('')
+        print('О боях:\n'
+              'В игре ты можешь драться используя оружие и броню нажми на клавишу "U" и указав противника,вот их список')
+        print('Axmet - он бывалый торгаш , не советую с ним драться , а если уж решил , то  остерегайся его булавы, \n'
+              'Yzbek - он тоже серьезный тогаш, также как и с Ахмедом не рекомендую драться с ним .\n'
+              'А вот с кем надо драться так это с ограми , переместившись в их логово там все увидишь и поймешь...\n'
+              'но что бы с ними драться тебе нужно перейти в их логово , а эта команда только для остальных\n')
+        print('')
+        print('О сюжете:\n'
+              'Ты проходясь по рынку увидел доску обьявлений, на висит листок с миссией высшего ранга \n'
+              'она заключается в том что бы зачистить логово огров за её выполнение дают 500 монет')
+        print('')
+        print('О смене локаций:\n'
+              'Что бы сменть локацию нужно нажать клавишу "I", и ввести локацию, список доступных предствален выше.\n'
+              'Но учти что если ты выбрал локацию логово огров то там будет жарко.')
+        print('')
+        print('Ну все начинай , для продолжения нажми клавишу "С"')
+        c = input()
+
+        if c == "C":
+            print('Ты успешно прошел обучение вводи команду!')
+            d = input()
+
+            for i in spisok_funksi:
+                if i == d:
+                    spisok_funksi[i]()
+                    d = input()
+
+
+                # else:
+                #     print('Такой команды нет ')
+                #     d = input()
+
+    else:
+        print('Ты нажал че то не то , соблюдай правила игры!')
+        a = input()
+
 
 

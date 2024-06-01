@@ -1,5 +1,9 @@
-from my4 import *
+def asd():
+    a = input()
+    print('a')
 
-print('Здраствуй игрок , сейчас ты играешь ')
 
-
+a = {"z":asd}
+for i in a:
+    print(i)
+    a[i]()
