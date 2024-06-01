@@ -15,8 +15,6 @@ LOCATIONS = {'Пригородный рынок': 'Узбек',
              'Логово Огров': 'Ургаш и Варча',
              'Центральный рынок': 'Ахмет'}
 
-Torgahi = [Axmet , Yzbek]
-
 
 class Human:
 
@@ -270,13 +268,13 @@ class Torgash_of_the_suburb_market(Human):
                             'chainmail': 250, 'steel_armor': 500, 'kokain': 200}
 
 
-Alex = Player("Алеша Попович", 300, 100, 'sword', 'steel_armor')
+Alex = Player("Алеша Попович", 300, 50, 'sword', 'steel_armor')
 
-Axmet = Torgash_of_the_center_market('Ахмет', 1000, 100, 'mace', 'leather_jacket')
+Axmet = Torgash_of_the_center_market('Ахмет', 1000, 50, 'mace', 'leather_jacket')
 
-Yzbek = Torgash_of_the_suburb_market('Шермухамаджумма', 1000, 100, 'bow', 'shirt')
+Yzbek = Torgash_of_the_suburb_market('Шермухамаджумма', 1000, 50, 'bow', 'shirt')
 
-# Torg = [Axmet, Yzbek]
+Torg = {'Axmet': Axmet, 'Yzbek': Yzbek}
 
 
 def get_location():
@@ -307,28 +305,25 @@ def F_R():
         'И если тот торшаш чей ассортимент ты хочешь посмотреть находтися в другой локации, то ты к нему быстренько прибежишь')
     torgash = input()
 
-    if torgash == Axmet:
-        print('Вот его товары')
-        print(Axmet.assortiment)
-
-    elif torgash == Yzbek:
-        print('Вот его товары')
-        print(Yzbek.assortiment)
+    if torgash in Torg:
+        for z in Torg:
+            if z == torgash:
+                print(Torg[torgash].assortiment)
 
     else:
         print('Сорян, но такого торгаша нет')
 
 
-def F_T(saleman):
+def F_T():
     print("Для покупки тебе нужно указать продавца , а затем товар")
     saleman = input()
-    tovar = input()
+    tovar1 = input()
 
-    if saleman == Axmet:
-        Alex.buy(tovar, Axmet)
-
-    elif saleman == Yzbek:
-        Alex.buy(tovar, Yzbek)
+    if saleman in Torg:
+        for x in Torg:
+            if x == saleman:
+                Alex.buy(tovar1, Torg[saleman])
+                print(Alex.assortiment)
 
     else:
         print('Сорян, но такого торгаша нет')
@@ -336,14 +331,14 @@ def F_T(saleman):
 
 def F_Y():
     print("Для продажи вещи из твоего инвентраря для начала тебе нужно будет указать вещь и покупателя ")
-    tovar = input()
+    tovar2 = input()
     buyer = input()
 
-    if buyer == Axmet:
-        Alex.sell(tovar, Axmet)
-
-    elif buyer == Yzbek:
-        Alex.sell(tovar, Yzbek)
+    if buyer in Torg:
+        for v in Torg:
+            if v == buyer:
+                Alex.sell(tovar2, Torg[buyer])
+                print(Alex.assortiment)
 
     else:
         print('Сорян, но такого торгаша нет')
@@ -354,11 +349,10 @@ def F_U():
 
     enemy = input()
 
-    if enemy == Axmet:
-        Alex.fight(Axmet)
-
-    elif enemy == Yzbek:
-        Alex.fight(Yzbek)
+    if enemy in Torg:
+        for n in Torg:
+            if n == enemy:
+                Alex.fight(Torg[enemy])
 
     else:
         print('Сорян, но такого врага нет')
@@ -366,7 +360,7 @@ def F_U():
 
 def F_I():
     print("Для смены локации тебе нужно указать нужную тебе локацию")
-    print('Вот список доступных:Центральный рынок , Пригородный рынок ')
+    print('Вот список доступных:Центральный рынок , Пригородный рынок ,Логово Огров ')
     location = input()
     Alex.move_to_new_location(location)
 
@@ -403,7 +397,8 @@ if a == 'A':
         print('')
         print('О торговле и рынках:\n'
               'сдесь есть 2 рынка на котроых разные цены , в пригородном рынке цены на фермерские товары ниже ,но на крутые товары вроде лат и мечей там цены выше\n '
-              'чем на центральном.  '
+              'чем на центральном.\n'
+              'После продажи или покупки вам покажут ваш инвентарь автоматически\n  '
               'что бы посмотреть то что предлагает торговец нажми на клавишу "R", ты увидишь цены на товары и сам ассортимент\n'
               'что бы купить товар нажми на клавишу "T", и введи товар который хочешь купить и он появится у тебя в инвентаре.\n'
               'Также ты можешь продавть торговцам вещи из своего инвентаря , нажав клавишу "Y"')
@@ -435,7 +430,6 @@ if a == 'A':
                     spisok_funksi[i]()
                     d = input()
 
-
                 # else:
                 #     print('Такой команды нет ')
                 #     d = input()
@@ -443,6 +437,3 @@ if a == 'A':
     else:
         print('Ты нажал че то не то , соблюдай правила игры!')
         a = input()
-
-
-
