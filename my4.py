@@ -86,7 +86,7 @@ class Human:
         print('Крепкость брони', self.armor_strength)
 
     def is_alive(self):
-        return self.gettr_hp() > 0
+        return self.gettr_hp() >= 0
 
     def fight(self, enemy):
         print('Методика боя заключается в том что атакующий наносит урон зависящий от своего оружия по броне врага\n'
@@ -129,6 +129,7 @@ class Human:
 
             if not enemy.is_alive():
                 print(f'{enemy.name} проиграл в этом нелегком бою но в последний момент успел сбежать')
+                enemy._hp = 50
                 break
 
             # Защищающийся наносит удар атакующему
@@ -157,6 +158,8 @@ class Human:
 
             if not self.is_alive():
                 print(f'{self.name} проиграл в этом нелегком бою но в последний момент успел сбежать ')
+                print('Ты выпил лещащее зелье и твои хп восстановились')
+                Alex._hp = 50
                 break
 
             # Сделать паузу между ударами
@@ -187,7 +190,10 @@ class Player(Human):
         super().__init__(name, money, hp, weapon_name, armor_name)
 
         self.assortiment = {'vodka': 15, 'bread': 3, 'sword': 150,
-                            'shirt': 25, 'kokain': 100}
+                            'shirt': 25, 'kokain': 100, 'hill': 1000}
+
+    def hill(self):
+        self._hp = 50
 
     def move_to_new_location(self, location):
         if location in LOCATIONS:
@@ -212,17 +218,23 @@ class Player(Human):
                     if self.is_alive():
                         print(
                             'Ты выпил изцеляющее зелье и твои hp восстановились , но вдруг на тебя накидывается 2 огр')
+
+                        Alex.hill()
+
                         sleep(3)
 
                         Varhcha.fight(self)
 
-                        if Varhcha.is_alive:
+                        if Varhcha._hp >= 0:
                             print('Cьебывай с нашей земли!')
+                            Alex._hp = 50
                         else:
                             Varhcha.begging_for_mercy()
                             print(
-                                'после этого тяжелого боя вы вернулись на локацию Центральный рынок и получили у торгаша награду.')
+                                'после этого тяжелого боя вы вернулись на локацию Центральный рынок и получили у торгаша награду.Эта локация изчезла\n'
+                                'ВЫ ПРОШЛИ ИГРУ!')
                             self.settr_money(500)
+                            Alex._hp = 50
 
     def change_weapons(self, replacement_weapon):
         if replacement_weapon in WEAPONS and replacement_weapon in self.assortiment:
@@ -264,11 +276,11 @@ class Torgash_of_the_suburb_market(Human):
 
         self.assortiment = {'vodka': 4.5, 'meat': 10, 'apple': 0.5,
                             'fish': 4, 'milk': 3, 'bread': 1,
-                            'меч': 200, 'leather_jacket': 100, 'shirt': 25,
+                            'sword': 200, 'leather_jacket': 100, 'shirt': 25,
                             'chainmail': 250, 'steel_armor': 500, 'kokain': 200}
 
 
-Alex = Player("Алеша Попович", 300, 50, 'sword', 'steel_armor')
+Alex = Player("Алеша Попович", 300, 50, 'sword', 'shirt')
 
 Axmet = Torgash_of_the_center_market('Ахмет', 1000, 50, 'mace', 'leather_jacket')
 
@@ -366,6 +378,12 @@ def F_I():
     location = input()
     Alex.move_to_new_location(location)
 
+# def F_O():
+#     print("ваши хп вылечены , но зелье из инвентаря изчезло , вам автоматически их покажут:")
+#     Alex.settr_hp(50)
+#     print(Alex.gettr_hp())
+
+
 
 spisok_funksi = {'Q': F_Q, 'W': F_W, 'E': F_E, 'R': F_R, 'T': F_T, 'Y': F_Y, 'U': F_U, 'I': F_I}
 
@@ -410,10 +428,11 @@ while obychenie:
             print('')
             print('О боях:\n'
                   'В игре ты можешь драться используя оружие и броню нажми на клавишу "U" и указав противника,вот их список')
-            print('Axmet - он бывалый торгаш , не советую с ним драться , а если уж решил , то  остерегайся его булавы, \n'
-                  'Yzbek - он тоже серьезный тогаш, также как и с Ахмедом не рекомендую драться с ним .\n'
-                  'А вот с кем надо драться так это с ограми , переместившись в их логово там все увидишь и поймешь...\n'
-                  'но что бы с ними драться тебе нужно перейти в их логово , а эта команда только для остальных\n')
+            print(
+                'Axmet - он бывалый торгаш , не советую с ним драться , а если уж решил , то  остерегайся его булавы, \n'
+                'Yzbek - он тоже серьезный тогаш, также как и с Ахмедом не рекомендую драться с ним .\n'
+                'А вот с кем надо драться так это с ограми , переместившись в их логово там все увидишь и поймешь...\n'
+                'но что бы с ними драться тебе нужно перейти в их логово , а эта команда только для остальных\n')
             print('')
             print('О сюжете:\n'
                   'Ты проходясь по рынку увидел доску обьявлений, на висит листок с миссией высшего ранга \n'
@@ -423,6 +442,9 @@ while obychenie:
                   'Что бы сменть локацию нужно нажать клавишу "I", и ввести локацию, список доступных предствален выше.\n'
                   'Но учти что если ты выбрал локацию логово огров то там будет жарко.')
             print('')
+            print("O лечении :")
+            print(
+                'После всех боев все персонажи набухиваются элексиром здоровья (vodka/kokain) , и их хп восстанавливаются')
 
             obychenie = False
 
@@ -448,4 +470,3 @@ while True:
 
     else:
         print('Такой функции нет')
-
